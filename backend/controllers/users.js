@@ -162,7 +162,7 @@ const userLogin = (req, res) => {
 
       return bcrypt.compare(password, user.password);
     })
-    .then((matched, user) => {
+    .then((matched) => {
       const token = jwt.sign({ _id: req.user._id }, secretKey, {
         expiresIn: "7d",
       });
