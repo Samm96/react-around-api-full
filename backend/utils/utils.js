@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { linkRegex, emailRegex } = require('../utils/regex');
+const { linkRegex, emailRegex } = require('./regex');
 
 export const userJoi = {
     body: Joi.object().keys({

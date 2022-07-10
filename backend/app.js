@@ -5,7 +5,7 @@ const routes = require('./routes');
 
 const { userLogin, createUser } = require('./controllers/users');
 const { celebrate } = require('celebrate');
-const userJoi = require('./models/user');
+const userJoi = require('./utils/utils');
 
 const { PORT = 3000 } = process.env;
 
