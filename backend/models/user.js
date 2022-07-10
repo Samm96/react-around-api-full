@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     minLength: [2, 'The NAME field length is too short (min: 2)'],
     maxLength: [30, 'The NAME field length is too long (max: 30)'],
     required: [true, 'Required field'],
+    default: 'Jacques Cousteau'
   },
 
   about: {
@@ -14,6 +15,7 @@ const userSchema = new mongoose.Schema({
     minLength: [2, 'The ABOUT field length is too short (min: 2)'],
     maxLength: [30, 'The ABOUT field length is too long (max: 30)'],
     required: [true, 'Required field'],
+    default: 'Explorer'
   },
 
   avatar: {
@@ -23,6 +25,7 @@ const userSchema = new mongoose.Schema({
       validator: (v) => linkRegex.test(v),
       message: 'This is not a valid URL',
     },
+    default: 'https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg'
   },
 
   email: {
