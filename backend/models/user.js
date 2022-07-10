@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { linkRegex } = require('../utils/regex');
+const { linkRegex, emailRegex } = require('../utils/regex');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -21,18 +21,24 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Required field'],
     validate: {
       validator: (v) => linkRegex.test(v),
-      message: 'The is not a valid URL',
+      message: 'This is not a valid URL',
     },
   },
 
   email: {
     type: String,
     required: [true, 'Required field'],
+    unique: true,
     validate: {
-      validator: (v) => 
+      validator: (v) => emailRegex.test(v),
+      message: 'This is not a valid email'
     }
-
   },
+
+  password: {
+    type: String,
+    required: [true, 'Required field'],
+  }
 }, { versionKey: false });
 
 module.exports = mongoose.model('user', userSchema);
