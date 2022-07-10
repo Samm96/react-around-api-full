@@ -24,6 +24,15 @@ const userSchema = new mongoose.Schema({
       message: 'The is not a valid URL',
     },
   },
+
+  email: {
+    type: String,
+    required: [true, 'Required field'],
+    validate: {
+      validator: (v) => 
+    }
+
+  },
 }, { versionKey: false });
 
 module.exports = mongoose.model('user', userSchema);
