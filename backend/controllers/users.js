@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
 const User = require("../models/user");
 const {
   INVALID_DATA_ERROR_CODE,
@@ -147,6 +148,24 @@ const updateAvatar = (req, res) => {
       }
     });
 };
+
+const userLogin = (req, res) => {
+  const { email, password } = req.body;
+  const  = 
+
+  User.findByCredentials({ email, password })
+    .then((user) => {
+      if (!user) {
+        res.status(NOT_FOUND_ERROR_CODE).send({ message: "User not found" });
+      } 
+
+      return bcrypt.compare(password, user.password);
+    })
+    .then(())
+    .catch((err) => {
+
+    })
+}
 
 module.exports = {
   getUser,
