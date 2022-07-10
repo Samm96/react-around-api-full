@@ -9,12 +9,19 @@ This repository contains the full API of "Around the U.S." project that features
 
 ## Project Description
 
-Full "Around The U.S." project; frontend and backend.
+Full "Around The U.S." project that handles cards and users with authorization and registration handled by a back-end server. A culmination of Practicum Bootcamp's Sprints 4-15.
 
-## Screen Sizes
+### Screen Sizes
 * 1280
 * 880
 * 320
+
+### Built with:
+* HTML/CSS
+* JavaScript
+* REACT
+* Express
+* MongoDB
 
 ## Links:
 
