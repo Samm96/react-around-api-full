@@ -1,11 +1,13 @@
 const bcrypt = require("bcryptjs");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
+const { secretKey } = require('../utils/key');
 const User = require("../models/user");
 const {
   INVALID_DATA_ERROR_CODE,
   NOT_FOUND_ERROR_CODE,
   INT_SERVER_ERROR_CODE,
   CAST_ERROR_CODE,
+  AUTHORIZATION_ERROR_CODE,
 } = require("../utils/errors");
 
 const getUsers = (req, res) => {
@@ -58,12 +60,12 @@ const createUser = (req, res) => {
   const { name, about, avatar, email, password } = req.body;
 
   bcrypt.hash(password, 10).then((hash) => {
-    User.create({ 
+    User.create({
       name: name,
       about: about,
-      avatar: avatar, 
+      avatar: avatar,
       email: email,
-      password: hash
+      password: hash,
     })
       .then((user) => res.send({ data: user }))
       .catch((err) => {
@@ -151,21 +153,32 @@ const updateAvatar = (req, res) => {
 
 const userLogin = (req, res) => {
   const { email, password } = req.body;
-  const  = 
 
   User.findByCredentials({ email, password })
     .then((user) => {
       if (!user) {
         res.status(NOT_FOUND_ERROR_CODE).send({ message: "User not found" });
-      } 
+      }
 
       return bcrypt.compare(password, user.password);
     })
-    .then(())
-    .catch((err) => {
+    .then((matched, user) => {
+      const token = jwt.sign({ _id: user._id }, secretKey, {
+        expiresIn: "7d",
+      });
 
+      if (!matched) {
+        res
+          .status(INVALID_DATA_ERROR_CODE)
+          .send({ message: "Incorrect email or password" });
+      }
+
+      res.send({ token });
     })
-}
+    .catch((err) => {
+      res.status(AUTHORIZATION_ERROR_CODE).send(err.message);
+    });
+};
 
 module.exports = {
   getUser,
@@ -173,4 +186,5 @@ module.exports = {
   createUser,
   updateUser,
   updateAvatar,
+  userLogin,
 };
