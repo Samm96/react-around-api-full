@@ -154,7 +154,7 @@ const updateAvatar = (req, res) => {
 const userLogin = (req, res) => {
   const { email, password } = req.body;
 
-  User.findByCredentials({ email, password })
+  User.findOne({ email })
     .then((user) => {
       if (!user) {
         res.status(NOT_FOUND_ERROR_CODE).send({ message: "User not found" });
@@ -163,7 +163,7 @@ const userLogin = (req, res) => {
       return bcrypt.compare(password, user.password);
     })
     .then((matched, user) => {
-      const token = jwt.sign({ _id: user._id }, secretKey, {
+      const token = jwt.sign({ _id: req.user._id }, secretKey, {
         expiresIn: "7d",
       });
 
