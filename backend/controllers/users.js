@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { secretKey } = require('../utils/key');
+const { secretKey } = require('../utils/utils');
 const User = require("../models/user");
 const {
   INVALID_DATA_ERROR_CODE,

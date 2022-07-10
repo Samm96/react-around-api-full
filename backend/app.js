@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const routes = require('./routes');
 
 const { userLogin, createUser } = require('./controllers/users');
-const { celebrate, Joi } = require('celebrate');
-const { linkRegex, emailRegex } = require('../utils/regex');
+const { celebrate } = require('celebrate');
+const userJoi = require('./models/user');
 
 const { PORT = 3000 } = process.env;
 
@@ -28,15 +28,7 @@ app.use((req, res, next) => {
 });
 
 app.post('/signin', userLogin);
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().regex(linkRegex),
-    email: Joi.string().email(emailRegex).required(),
-    password: Joi.string().required(),
-  }),
-}), createUser);
+app.post('/signup', celebrate(userJoi), createUser);
 
 app.use(routes);
 
