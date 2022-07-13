@@ -155,25 +155,28 @@ const userLogin = (req, res) => {
   const { email, password } = req.body;
 
   User.findOne({ email })
-    .then((user) => {
-      if (!user) {
-        res.status(NOT_FOUND_ERROR_CODE).send({ message: "User not found" });
-      }
-
-      return bcrypt.compare(password, user.password);
+    .orFail(() => {
+      const error = new Error("User not found");
+      error.statusCode = NOT_FOUND_ERROR_CODE;
+      throw error;
     })
-    .then((matched) => {
-      const token = jwt.sign({ _id: req.user._id }, secretKey, {
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, secretKey, {
         expiresIn: "7d",
       });
 
+      bcrypt.compare(password, user.password)
+
+      if(password === user.password) {
+        res.send({ token });
+      }
+    })
+    .then((matched) => {
       if (!matched) {
         res
           .status(INVALID_DATA_ERROR_CODE)
           .send({ message: "Incorrect email or password" });
       }
-
-      res.send({ token });
     })
     .catch((err) => {
       res.status(AUTHORIZATION_ERROR_CODE).send(err.message);
