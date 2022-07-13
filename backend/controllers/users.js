@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { secretKey } = require('../utils/utils');
+const { secretKey } = require("../utils/utils");
 const User = require("../models/user");
 const {
   INVALID_DATA_ERROR_CODE,
@@ -165,9 +165,9 @@ const userLogin = (req, res) => {
         expiresIn: "7d",
       });
 
-      bcrypt.compare(password, user.password)
+      bcrypt.compare(password, user.password);
 
-      if(password === user.password) {
+      if (password === user.password) {
         res.send({ token });
       }
     })
@@ -178,9 +178,18 @@ const userLogin = (req, res) => {
           .send({ message: "Incorrect email or password" });
       }
     })
-    .catch((err) => {
-      res.status(INT_SERVER_ERROR_CODE).send({ message: "An error has occurred with the server"});
+    .catch(() => {
+      res
+        .status(INT_SERVER_ERROR_CODE)
+        .send({ message: "An error has occurred with the server" });
     });
+};
+
+//issue
+const getCurrentUser = (req, res) => {
+  User.findById(req.user._id)
+    .then((user) => res.send({ user }))
+    .catch((err) => err.message);
 };
 
 module.exports = {
@@ -190,4 +199,5 @@ module.exports = {
   updateUser,
   updateAvatar,
   userLogin,
+  getCurrentUser,
 };
