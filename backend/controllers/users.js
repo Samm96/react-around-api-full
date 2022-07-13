@@ -174,12 +174,12 @@ const userLogin = (req, res) => {
     .then((matched) => {
       if (!matched) {
         res
-          .status(INVALID_DATA_ERROR_CODE)
+          .status(AUTHORIZATION_ERROR_CODE)
           .send({ message: "Incorrect email or password" });
       }
     })
     .catch((err) => {
-      res.status(AUTHORIZATION_ERROR_CODE).send(err.message);
+      res.status(INT_SERVER_ERROR_CODE).send({ message: "An error has occurred with the server"});
     });
 };
 
