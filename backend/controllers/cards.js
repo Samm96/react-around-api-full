@@ -1,6 +1,6 @@
 const Card = require('../models/card');
 const {
-  INVALID_DATA_ERROR_CODE, NOT_FOUND_ERROR_CODE, INT_SERVER_ERROR_CODE, CAST_ERROR_CODE,
+  BAD_REQUEST_ERROR_CODE, NOT_FOUND_ERROR_CODE, INT_SERVER_ERROR_CODE, CAST_ERROR_CODE,
 } = require('../utils/errors');
 
 const getCards = (req, res) => {
@@ -25,7 +25,7 @@ const createCard = (req, res) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(INVALID_DATA_ERROR_CODE).send({ message: `${Object.values(err.errors).map((error) => error.message).join(', ')}` });
+        res.status(BAD_REQUEST_ERROR_CODE).send({ message: `${Object.values(err.errors).map((error) => error.message).join(', ')}` });
       } else {
         res.status(INT_SERVER_ERROR_CODE).send({ message: 'An error has occurred with the server' });
       }

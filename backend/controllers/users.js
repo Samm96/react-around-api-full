@@ -1,16 +1,20 @@
+// all /me paths not working properly (not sure how to test them)
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { secretKey } = require("../utils/utils");
 const User = require("../models/user");
 const {
-  INVALID_DATA_ERROR_CODE,
   NOT_FOUND_ERROR_CODE,
-  INT_SERVER_ERROR_CODE,
-  CAST_ERROR_CODE,
   AUTHORIZATION_ERROR_CODE,
 } = require("../utils/errors");
+const ConflictError = require("../errors/ConflictError");
+const InternalServerError = require("../errors/InternalServerError");
+const CastError = require("../errors/CastError");
+const BadRequestError = require("../errors/BadRequestError");
+const NotFoundError = require("../errors/NotFoundError");
 
-const getUsers = (req, res) => {
+const getUsers = (req, res, next) => {
   User.find({})
     .orFail(() => {
       const error = new Error("List of users not found");
@@ -19,13 +23,12 @@ const getUsers = (req, res) => {
     })
     .then((users) => res.send(users))
     .catch(() => {
-      res
-        .status(INT_SERVER_ERROR_CODE)
-        .send({ message: "An error has occurred with the server" });
+      next(new InternalServerError("An error occurred on the server"));
     });
 };
 
-const getUser = (req, res) => {
+//This functions correctly
+const getUser = (req, res, next) => {
   // the specific variable specified in the get request (the ID of the URL)
   const { id } = req.params;
   User.findById(id)
@@ -36,53 +39,57 @@ const getUser = (req, res) => {
       // const user = parsedUserData.find(({ _id: userId }) => userId === id);
 
       if (!user) {
-        res.status(NOT_FOUND_ERROR_CODE).send({ message: "User ID not found" });
+        next(new NotFoundError("User ID not found"));
       } else {
         res.send({ data: user });
       }
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        res.status(CAST_ERROR_CODE).send({ message: "User ID not valid" });
+        next(new CastError("User ID not valid"));
       } else if (err.name === "DocumentNotFoundError") {
-        res.status(NOT_FOUND_ERROR_CODE).send({ message: "User ID not found" });
+        next(new NotFoundError("User ID not found"));
       } else {
-        res
-          .status(INT_SERVER_ERROR_CODE)
-          .send({ message: "An error has occurred with the server" });
+        next(err);
       }
     });
 };
 
-const createUser = (req, res) => {
+//ConflictError works
+//Bad Request Error not functioning properly (even before when it was res.status.send)
+const createUser = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
 
-  bcrypt.hash(password, 10).then((hash) => {
-    User.create({
-      name: name,
-      about: about,
-      avatar: avatar,
-      email: email,
-      password: hash,
+  User.findOne({ email })
+    .then((user) => {
+      if (user) {
+        throw new ConflictError("This email is already in use");
+      } else {
+        return bcrypt.hash(password, 10);
+      }
     })
-      .then((user) => res.send({ data: user }))
-      .catch((err) => {
-        if (err.name === "ValidationError") {
-          res.status(INVALID_DATA_ERROR_CODE).send({
-            message: `${Object.values(err.errors)
-              .map((error) => error.message)
-              .join(", ")}`,
-          });
-        } else {
-          res
-            .status(INT_SERVER_ERROR_CODE)
-            .send({ message: "An error occurred while creating user" });
-        }
-      });
-  });
+
+    .then((hash) => 
+      User.create({
+        name: name,
+        about: about,
+        avatar: avatar,
+        email: email,
+        password: hash,
+      }))
+    .then((user) => res.status(201).send({ data: user }))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(
+          new BadRequestError('Missing or invalid email or password')
+        );
+      } else {
+        next(err);
+      }
+    });
 };
 
-const updateUser = (req, res) => {
+const updateUser = (req, res, next) => {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(
@@ -97,24 +104,24 @@ const updateUser = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === "CastError") {
-        res.status(CAST_ERROR_CODE).send({ message: "User ID not valid" });
+        next(new CastError("User ID not valid"));
       } else if (err.name === "DocumentNotFoundError") {
-        res.status(NOT_FOUND_ERROR_CODE).send({ message: "User ID not found" });
+        next(new NotFoundError("User ID not found"));
       } else if (err.name === "ValidationError") {
-        res.status(INVALID_DATA_ERROR_CODE).send({
-          message: `${Object.values(err.errors)
-            .map((error) => error.message)
-            .join(", ")}`,
-        });
+        next(
+          new BadRequestError(
+            `${Object.values(err.errors)
+              .map((error) => error.message)
+              .join(", ")}`
+          )
+        );
       } else {
-        res
-          .status(INT_SERVER_ERROR_CODE)
-          .send({ message: "An error has occurred with the server" });
+        next(new InternalServerError("An error occurred on the server"));
       }
     });
 };
 
-const updateAvatar = (req, res) => {
+const updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
   User.findByIdAndUpdate(
@@ -134,17 +141,17 @@ const updateAvatar = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === "CastError") {
-        res.status(CAST_ERROR_CODE).send({ message: "User ID not valid" });
+        next(new CastError("User ID not valid"));
       } else if (err.name === "ValidationError") {
-        res.status(INVALID_DATA_ERROR_CODE).send({
-          message: `${Object.values(err.errors)
-            .map((error) => error.message)
-            .join(", ")}`,
-        });
+        next(
+          new BadRequestError(
+            `${Object.values(err.errors)
+              .map((error) => error.message)
+              .join(", ")}`
+          )
+        );
       } else {
-        res
-          .status(INT_SERVER_ERROR_CODE)
-          .send({ message: "An error has occurred with the server" });
+        next(new InternalServerError("An error occurred on the server"));
       }
     });
 };
@@ -157,13 +164,13 @@ const userLogin = (req, res) => {
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, secretKey, {
         expiresIn: "7d",
-      })
+      });
 
-      res.send({ data: user.toJSON(), token});
+      res.send({ data: user.toJSON(), token });
     })
-    .catch((err) => {
-      res.status(AUTHORIZATION_ERROR_CODE).send({ message: err.message});
-    })
+    .catch(() => {
+      res.status(AUTHORIZATION_ERROR_CODE).send({ message: err.message });
+    });
 };
 
 //now it shows error: User ID Invalid (which means its hitting the controller)
