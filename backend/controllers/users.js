@@ -14,6 +14,24 @@ const CastError = require("../errors/CastError");
 const BadRequestError = require("../errors/BadRequestError");
 const NotFoundError = require("../errors/NotFoundError");
 
+//this works
+const userLogin = (req, res) => {
+  const { email, password } = req.body;
+
+  User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, secretKey, {
+        expiresIn: "7d",
+      });
+
+      res.send({ data: user.toJSON(), token });
+    })
+    .catch(() => {
+      res.status(AUTHORIZATION_ERROR_CODE).send({ message: err.message });
+    });
+};
+
+
 const getUsers = (req, res, next) => {
   User.find({})
     .orFail(() => {
@@ -53,6 +71,11 @@ const getUser = (req, res, next) => {
         next(err);
       }
     });
+};
+
+//now it shows error: User ID Invalid (which means its hitting the controller)
+const getCurrentUser = (req, res, next) => {
+  getUser(req.user, res, next);
 };
 
 //ConflictError works
@@ -154,28 +177,6 @@ const updateAvatar = (req, res, next) => {
         next(new InternalServerError("An error occurred on the server"));
       }
     });
-};
-
-//this works
-const userLogin = (req, res) => {
-  const { email, password } = req.body;
-
-  User.findUserByCredentials(email, password)
-    .then((user) => {
-      const token = jwt.sign({ _id: user._id }, secretKey, {
-        expiresIn: "7d",
-      });
-
-      res.send({ data: user.toJSON(), token });
-    })
-    .catch(() => {
-      res.status(AUTHORIZATION_ERROR_CODE).send({ message: err.message });
-    });
-};
-
-//now it shows error: User ID Invalid (which means its hitting the controller)
-const getCurrentUser = (req, res) => {
-  getUser(req.user, res);
 };
 
 module.exports = {
