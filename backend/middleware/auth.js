@@ -22,5 +22,5 @@ module.exports = (req, res, next) => {
 
     req.user = payload; // assigns payload to request object
 
-    next();
+    return next();
 }

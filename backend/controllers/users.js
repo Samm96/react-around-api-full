@@ -17,9 +17,7 @@ const getUsers = (req, res) => {
       error.statusCode = NOT_FOUND_ERROR_CODE;
       throw error;
     })
-    .then((users) => {
-      res.send(users);
-    })
+    .then((users) => res.send(users))
     .catch(() => {
       res
         .status(INT_SERVER_ERROR_CODE)
@@ -151,6 +149,7 @@ const updateAvatar = (req, res) => {
     });
 };
 
+//this works
 const userLogin = (req, res) => {
   const { email, password } = req.body;
 
@@ -167,11 +166,9 @@ const userLogin = (req, res) => {
     })
 };
 
-//issue
+//now it shows error: User ID Invalid (which means its hitting the controller)
 const getCurrentUser = (req, res) => {
-  User.findById(req.user._id)
-    .then((user) => res.send({ user }))
-    .catch((err) => err.message);
+  getUser(req.user, res);
 };
 
 module.exports = {
