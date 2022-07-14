@@ -1,0 +1,5 @@
+.popup-form__container_type_picture {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

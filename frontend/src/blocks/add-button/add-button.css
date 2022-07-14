@@ -1,0 +1,36 @@
+.add-button {
+  margin: 0;
+  padding: 0;
+  width: 150px;
+  height: 50px;
+  background-image: url(../../images/Add-Button.png);
+  background-size: 150px 50px;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: none;
+  grid-area: button;
+  justify-self: flex-end;
+}
+
+.add-button:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 880px) {
+  .add-button {
+    width: 282px;
+    grid-column: 3;
+    grid-row: 5;
+    background-image: url(../../images/Add-Button-mobile.svg);
+    background-size: 282px 50px;
+    justify-self: flex-start;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .add-button {
+    grid-column: 2;
+    grid-row: span 2;
+  }
+}

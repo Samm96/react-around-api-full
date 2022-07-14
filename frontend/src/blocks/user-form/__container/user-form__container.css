@@ -1,0 +1,12 @@
+.user-form__container {
+  max-width: 880px;
+  margin: 0 auto 0;
+  padding: 60px 0 80px;
+}
+
+@media screen and (max-width: 580px) {
+  .user-form__container {
+    max-width: 580px;
+    padding: 40px 0 42px;
+  }
+}

@@ -1,0 +1,5 @@
+.element__card {
+  margin: 0;
+  padding: 0;
+  display: flex;
+}

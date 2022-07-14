@@ -1,0 +1,17 @@
+.header__container {
+    display: grid;
+    grid-template-areas: 
+        ". email sign";
+    column-gap: 24px;
+    position: absolute;
+    padding-top: 6px;
+}
+
+@media screen and (max-width: 580px){
+    .header__container {
+        grid-template-areas:
+            ". email sign sandwich";
+        column-gap: 30px;
+    }
+} 
+    

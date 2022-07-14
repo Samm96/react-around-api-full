@@ -1,0 +1,9 @@
+.popup-form__input-container_type_profile-picture {
+    padding-bottom: 0;
+}
+
+@media screen and (max-width: 580px) {
+    .popup-form__input-container_type_profile-picture {
+        margin: 0 26px 0;
+    }
+}

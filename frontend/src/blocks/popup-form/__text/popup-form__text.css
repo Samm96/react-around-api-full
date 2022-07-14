@@ -1,0 +1,16 @@
+.popup-form__text {
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  margin: 0;
+  padding: 0 36px 60px;
+}
+
+@media screen and (max-width: 580px) {
+  .popup-form__text {
+    font-size: 20px;
+    line-height: 24px;
+    padding: 0 18px 50px;
+  }
+}

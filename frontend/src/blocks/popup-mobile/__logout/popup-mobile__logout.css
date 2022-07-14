@@ -1,0 +1,15 @@
+.popup-mobile__logout {
+  color: #a9a9a9;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  margin: 18px 0 0;
+  background: transparent;
+  border: none;
+}
+
+.popup-mobile__logout:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}

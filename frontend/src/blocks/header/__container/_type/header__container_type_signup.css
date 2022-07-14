@@ -1,0 +1,7 @@
+@media screen and (max-width: 580px){
+    .header__container_type_signup {
+        grid-template-areas: 
+            ". email . sign";
+        grid-template-columns: repeat(3, 2fr);
+    }
+} 

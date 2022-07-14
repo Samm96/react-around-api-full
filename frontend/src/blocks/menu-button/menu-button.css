@@ -1,0 +1,25 @@
+.menu-button {
+  visibility: hidden;
+}
+
+@media screen and (max-width: 580px) {
+  .menu-button {
+    background-image: url(../../images/menu.png);
+    height: 18px;
+    width: 24px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    border: none;
+    grid-area: sandwich;
+    visibility: visible;
+    margin-left: -64px;
+    padding: 0;
+    position: absolute;
+  }
+
+  .menu-button:hover {
+    opacity: 0.6;
+    cursor: pointer;
+  }
+}

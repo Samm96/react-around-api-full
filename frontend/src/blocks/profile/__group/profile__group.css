@@ -1,0 +1,33 @@
+.profile__group {
+  display: grid;
+  grid-template-columns: 120px 30px 373px 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-areas:
+    "image . info . ."
+    "image . info edit button"
+    "image . info . button"
+    "image . info . button";
+}
+
+@media screen and (max-width: 880px) {
+  .profile__group {
+    grid-template-columns: 120px 30px 373px;
+    grid-template-areas:
+      "image . info ."
+      "image . info edit"
+      "image . info button"
+      "image . info button";
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .profile__group {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 120px 1fr;
+    grid-template-areas:
+      ". image ."
+      ". info edit"
+      ". button .";
+  }
+}

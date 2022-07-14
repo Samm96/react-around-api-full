@@ -1,0 +1,15 @@
+.popup-form__error-text {
+    color: #FF0000;
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 400;
+    margin: 5px 0 0;
+    height: 25px;
+    visibility: hidden;
+}
+
+@media screen and (max-width: 580px) {
+    .popup-form__error-text {
+        height: 20px;
+    }
+}

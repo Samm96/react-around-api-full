@@ -1,0 +1,8 @@
+.popup-form__container_type_image {
+  max-height: 75vh;
+  max-width: 75vw;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}

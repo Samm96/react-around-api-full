@@ -1,0 +1,16 @@
+.popup-form {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  height: auto;
+  visibility: hidden;
+  transition: opacity ease-out 0.5s, visibility 0s ease-out 0.5s;
+}

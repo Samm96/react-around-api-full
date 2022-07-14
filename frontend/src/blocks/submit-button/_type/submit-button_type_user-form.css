@@ -1,0 +1,11 @@
+.submit-button_type_user-form {
+    margin-top: 216px;
+    background-color: #fff;
+    color: #000;
+}
+
+@media screen and (max-width: 580px) {
+    .submit-button_type_user-form {
+        margin-top: 173px;
+    }
+}

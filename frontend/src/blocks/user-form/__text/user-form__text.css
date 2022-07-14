@@ -1,0 +1,16 @@
+.user-form__text {
+  margin: 15px 0 0 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  text-align: center;
+}
+
+@media screen and (max-width: 580px) {
+  .user-form__text {
+    font-size: 12px;
+    line-height: 15px;
+    margin: 20px 0 0 0;
+  }
+}

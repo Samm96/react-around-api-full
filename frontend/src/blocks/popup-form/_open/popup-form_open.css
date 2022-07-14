@@ -1,0 +1,8 @@
+.popup-form_open {
+  display: flex;
+
+  opacity: 1;
+  height: auto;
+  visibility: visible;
+  transition: opacity 0.5s ease-out, visibility 0s ease-out;
+}

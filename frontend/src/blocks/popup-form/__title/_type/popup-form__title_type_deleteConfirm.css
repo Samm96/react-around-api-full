@@ -1,0 +1,9 @@
+.popup-form__title_type_deleteConfirm {
+    margin: 34px 36px 38px;
+}
+
+@media screen and (max-width: 580px) {
+    .popup-form__title_type_deleteConfirm {
+        margin: 25px 26px 0;
+    }
+}

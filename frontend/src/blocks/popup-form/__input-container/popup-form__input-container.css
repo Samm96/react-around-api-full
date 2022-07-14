@@ -1,0 +1,15 @@
+.popup-form__input-container {
+  padding-bottom: 36px;
+  margin: 0 auto 0;
+  max-width: 358px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 580px) {
+  .popup-form__input-container {
+    max-width: 238px;
+    margin: 76px auto 25px;
+    padding-bottom: 0;
+  }
+}

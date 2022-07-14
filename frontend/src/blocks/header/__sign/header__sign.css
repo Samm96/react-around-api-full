@@ -1,0 +1,27 @@
+.header__sign {
+    color: #ffff;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    grid-area: sign;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    visibility: visible;
+}
+
+.header__sign:hover {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+
+@media screen and (max-width: 580px) {
+    .header__sign {
+        font-size: 14px;
+        line-height: 17px;
+        font-weight: 400;
+        visibility: hidden;
+    }
+}

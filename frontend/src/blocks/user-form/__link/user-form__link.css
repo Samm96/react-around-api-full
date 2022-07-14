@@ -1,0 +1,9 @@
+.user-form__link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.user-form__link:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}

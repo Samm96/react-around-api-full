@@ -1,0 +1,20 @@
+.like-button {
+  margin: 22px 19px 0 0;
+  padding: 0;
+  width: 21px;
+  height: 19px;
+  background-image: url(../../images/liked.svg);
+  background-size: 21px 19px;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: none;
+}
+
+.like-button:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.like-button:active {
+  background-image: url(../../images/liked-active.svg);
+}

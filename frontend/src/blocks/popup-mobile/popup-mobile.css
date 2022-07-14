@@ -1,0 +1,6 @@
+.popup-mobile {
+  max-width: 320px;
+  margin: 0 auto 0;
+  visibility: hidden;
+  display: none;
+}
