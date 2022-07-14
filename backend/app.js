@@ -16,6 +16,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(routes);
 
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(err.statusCode).send({ message: err.message });
+})
+
 app.listen(PORT, () => {
   console.log(`App listening at port ${PORT}`);
 });
