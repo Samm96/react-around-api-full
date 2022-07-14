@@ -2,6 +2,7 @@ const Card = require('../models/card');
 const {
   BAD_REQUEST_ERROR_CODE, NOT_FOUND_ERROR_CODE, INT_SERVER_ERROR_CODE, CAST_ERROR_CODE,
 } = require('../utils/errors');
+const ForbiddenError = require('../errors/ForbiddenError')
 
 const getCards = (req, res) => {
   Card.find({})
@@ -32,6 +33,14 @@ const createCard = (req, res) => {
     });
 };
 
+/** Will this work? :
+ *  .then((card) => {
+      if (!(card.owner.toString() === req.user._id)) {
+        next(new ForbiddenError('You can\'t delete another user\'s card'));
+      }
+      Card.deleteOne(card)
+    })
+ */
 const deleteCard = (req, res) => {
   const { cardId } = req.params;
 
