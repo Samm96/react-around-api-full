@@ -154,35 +154,17 @@ const updateAvatar = (req, res) => {
 const userLogin = (req, res) => {
   const { email, password } = req.body;
 
-  User.findOne({ email })
-    .orFail(() => {
-      const error = new Error("User not found");
-      error.statusCode = NOT_FOUND_ERROR_CODE;
-      throw error;
-    })
+  User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, secretKey, {
         expiresIn: "7d",
-      });
+      })
 
-      bcrypt.compare(password, user.password);
-
-      if (password === user.password) {
-        res.send({ token });
-      }
+      res.send({ data: user.toJSON(), token});
     })
-    .then((matched) => {
-      if (!matched) {
-        res
-          .status(AUTHORIZATION_ERROR_CODE)
-          .send({ message: "Incorrect email or password" });
-      }
+    .catch((err) => {
+      res.status(AUTHORIZATION_ERROR_CODE).send({ message: err.message});
     })
-    .catch(() => {
-      res
-        .status(INT_SERVER_ERROR_CODE)
-        .send({ message: "An error has occurred with the server" });
-    });
 };
 
 //issue
