@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+const validateURL = require('../utils/urlValidate');
 const auth = require('../middleware/auth');
 const { linkRegex, emailRegex } = require('../utils/regex');
 const NotFoundError = require('../errors/NotFoundError');
@@ -16,7 +17,7 @@ router.post(
     body: Joi.object().keys({
       name: Joi.string().min(2).max(30),
       about: Joi.string().min(2).max(30),
-      avatar: Joi.string().regex(linkRegex),
+      avatar: Joi.string().regex(linkRegex).custom(validateURL),
       email: Joi.string().email(emailRegex).required(),
       password: Joi.string().required(),
     }),
