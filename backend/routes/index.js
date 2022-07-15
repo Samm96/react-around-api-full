@@ -1,7 +1,7 @@
 const router = require('express').Router();
+const { celebrate, Joi } = require('celebrate');
 const auth = require('../middleware/auth');
-const { celebrate, Joi } = require("celebrate");
-const { linkRegex, emailRegex } = require("../utils/regex");
+const { linkRegex, emailRegex } = require('../utils/regex');
 const NotFoundError = require('../errors/NotFoundError');
 
 const cardsRouter = require('./cards');
@@ -9,9 +9,9 @@ const usersRouter = require('./users');
 
 const { userLogin, createUser } = require('../controllers/users');
 
-router.post("/signin", userLogin);
+router.post('/signin', userLogin);
 router.post(
-  "/signup",
+  '/signup',
   celebrate({
     body: Joi.object().keys({
       name: Joi.string().min(2).max(30),
@@ -21,7 +21,7 @@ router.post(
       password: Joi.string().required(),
     }),
   }),
-  createUser
+  createUser,
 );
 
 // All routes are protected with auth except signin and signup

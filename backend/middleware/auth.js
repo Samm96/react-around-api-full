@@ -1,26 +1,26 @@
+const jwt = require('jsonwebtoken');
 const {
-    AUTHORIZATION_ERROR_CODE,
-  } = require("../utils/errors");
-const jwt = require("jsonwebtoken");
-const { secretKey } = require("../utils/utils");
+  AUTHORIZATION_ERROR_CODE,
+} = require('../utils/errors');
+const { secretKey } = require('../utils/utils');
 
 module.exports = (req, res, next) => {
-    const { authorization } = req.headers;
+  const { authorization } = req.headers;
 
-    if (!authorization || !authorization.startsWith('Bearer ')) {
-        return res.status(AUTHORIZATION_ERROR_CODE).send({ message: 'Authorization required'});
-    }
+  if (!authorization || !authorization.startsWith('Bearer ')) {
+    return res.status(AUTHORIZATION_ERROR_CODE).send({ message: 'Authorization required' });
+  }
 
-    const token = authorization.replace('Bearer ', '');
-    let payload;
+  const token = authorization.replace('Bearer ', '');
+  let payload;
 
-    try {
-        payload = jwt.verify(token, secretKey);
-    } catch (err) {
-        res.status(AUTHORIZATION_ERROR_CODE).send({ message: 'Authorization required'});
-    }
+  try {
+    payload = jwt.verify(token, secretKey);
+  } catch (err) {
+    res.status(AUTHORIZATION_ERROR_CODE).send({ message: 'Authorization required' });
+  }
 
-    req.user = payload; // assigns payload to request object
+  req.user = payload; // assigns payload to request object
 
-    return next();
-}
+  return next();
+};
