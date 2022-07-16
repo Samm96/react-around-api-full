@@ -75,7 +75,7 @@ const getUser = (req, res, next) => {
 
 // works with temp auth solution
 const getCurrentUser = (req, res, next) => {
-  getUser(req.user._id, res, next);
+  getUser(req, res, next);
 };
 
 // ConflictError works
