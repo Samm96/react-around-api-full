@@ -9,22 +9,28 @@ class Api {
     return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
   }
 
-  getAppInfo() {
-    return Promise.all([this.getUserInfo(), this.getInitialCardList()]);
+  getAppInfo(token) {
+    return Promise.all([this.getUserInfo(token), this.getInitialCardList(token)]);
   }
 
   //used to request user info
-  getUserInfo() {
+  getUserInfo(token) {
     return fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers,
+      headers: {
+      authorization: `Bearer ${token}`,
+      ...this._headers,
+      }
     }).then(this._handleServerResponse);
   }
 
   //used to insert user info
-  setUserInfo({ name, about }) {
+  setUserInfo({ name, about }, token) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`,
+        ...this._headers,
+      },
       body: JSON.stringify({
         name,
         about,
@@ -33,10 +39,13 @@ class Api {
   }
 
   // used to insert profile pic
-  updateProfilePicture({ avatar }) {
+  updateProfilePicture({ avatar }, token) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`,
+        ...this._headers,
+      },
       body: JSON.stringify({
         avatar,
       }),
@@ -44,17 +53,23 @@ class Api {
   }
 
   // used to get initial cards from server
-  getInitialCardList() {
+  getInitialCardList(token) {
     return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`,
+        ...this._headers,
+      }
     }).then(this._handleServerResponse);
   }
 
   // used to add cards to page
-  addCard({ name, link }) {
+  addCard({ name, link }, token) {
     return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`,
+        ...this._headers,
+      },
       body: JSON.stringify({
         name,
         link,
@@ -63,17 +78,23 @@ class Api {
   }
 
   // removes cards
-  removeCard({ _id }) {
+  removeCard({ _id }, token) {
     return fetch(`${this._baseUrl}/cards/${_id}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`,
+        ...this._headers,
+      }
     }).then(this._handleServerResponse);
   }
 
-  toggleLikeCardStatus(cardId, like) {
+  toggleLikeCardStatus(cardId, like, token) {
     return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
       method: like ? "PUT" : "DELETE",
-      headers: this._headers,
+      headers: {
+        authorization: `Bearer ${token}`,
+        ...this._headers,
+      },
     }).then(this._handleServerResponse);
   }
 }

@@ -48,6 +48,19 @@ function App() {
   const userHistory = useHistory();
 
   React.useEffect(() => {
+    const userToken = localStorage.getItem('jwt');
+    if (userToken && isLoggedIn) {
+      api
+        .getAppInfo(userToken)
+        .then(([cardData, userData]) => {
+          setCurrentUser(userData);
+          setCards(cardData);
+        })
+        .catch((err) => console.log(err));
+    }
+  });
+
+  React.useEffect(() => {
     const userToken = localStorage.getItem("jwt");
     if (userToken) {
       auth
@@ -112,6 +125,7 @@ function App() {
     closeAllPopups();
   }
 
+  /** 
   React.useEffect(() => {
     api
       .getInitialCardList()
@@ -120,6 +134,16 @@ function App() {
       })
       .catch((err) => console.log(err));
   }, []);
+  
+  React.useEffect(() => {
+    api
+      .getUserInfo()
+      .then((userData) => {
+        setCurrentUser(userData);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  */
 
   function handleCardLike(card) {
     const isLiked = card.likes.some((user) => user._id === currentUser._id);
@@ -162,15 +186,6 @@ function App() {
   function handleCardDeleteSubmit(card) {
     handleCardDelete(card);
   }
-
-  React.useEffect(() => {
-    api
-      .getUserInfo()
-      .then((userData) => {
-        setCurrentUser(userData);
-      })
-      .catch((err) => console.log(err));
-  }, []);
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);
