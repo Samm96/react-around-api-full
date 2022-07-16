@@ -1,12 +1,9 @@
-// all /me paths not working properly (not sure how to test them)
-
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { secretKey } = require('../utils/utils');
 const User = require('../models/user');
 const {
   NOT_FOUND_ERROR_CODE,
-  AUTHORIZATION_ERROR_CODE,
 } = require('../utils/errors');
 const ConflictError = require('../errors/ConflictError');
 const InternalServerError = require('../errors/InternalServerError');
@@ -15,7 +12,7 @@ const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 
 // this works
-const userLogin = (req, res) => {
+const userLogin = (req, res, next) => {
   const { email, password } = req.body;
 
   User.findUserByCredentials(email, password)
@@ -26,8 +23,8 @@ const userLogin = (req, res) => {
 
       res.send({ data: user.toJSON(), token });
     })
-    .catch((err) => {
-      res.status(AUTHORIZATION_ERROR_CODE).send({ message: err.message });
+    .catch(() => {
+      next(new BadRequestError('Incorrect email or password'));
     });
 };
 
@@ -47,7 +44,8 @@ const getUsers = (req, res, next) => {
 /** This functions correctly */
 const getUser = (req, res, next) => {
   // the specific variable specified in the get request (the ID of the URL)
-  const { id } = req.params;
+  const id = (req.params.id !== 'me' ? req.params.id : req.user._id);
+
   User.findById(id)
     .then((user) => {
       // turn that data into a JavaScript object
@@ -72,9 +70,9 @@ const getUser = (req, res, next) => {
     });
 };
 
-// now it shows error: User ID Invalid (which means its hitting the controller)
+// works with temp auth solution
 const getCurrentUser = (req, res, next) => {
-  getUser(req.user, res, next);
+  getUser(req, res, next);
 };
 
 // ConflictError works
