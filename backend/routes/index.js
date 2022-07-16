@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { celebrate, Joi } = require('celebrate');
+const { celebrate, Joi, errors } = require('celebrate');
 const validateURL = require('../utils/urlValidate');
 const auth = require('../middleware/auth');
 const { linkRegex, emailRegex } = require('../utils/regex');
@@ -32,6 +32,9 @@ router.use(auth);
 
 router.use('/cards', cardsRouter);
 router.use('/users', requestLogger, usersRouter);
+
+router.use(errorLogger);
+router.use(errors());
 
 router.use('*', (req, res, next) => {
   next(new NotFoundError('Requested resource not found'));
