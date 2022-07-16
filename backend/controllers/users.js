@@ -47,7 +47,8 @@ const getUsers = (req, res, next) => {
 /** This functions correctly */
 const getUser = (req, res, next) => {
   // the specific variable specified in the get request (the ID of the URL)
-  const { id } = req.params;
+  const id = (req.params.id !== 'me' ? req.params.id : req.user._id);
+
   User.findById(id)
     .then((user) => {
       // turn that data into a JavaScript object
@@ -72,9 +73,9 @@ const getUser = (req, res, next) => {
     });
 };
 
-// now it shows error: User ID Invalid (which means its hitting the controller)
+// works with temp auth solution
 const getCurrentUser = (req, res, next) => {
-  getUser(req.user, res, next);
+  getUser(req.user._id, res, next);
 };
 
 // ConflictError works
