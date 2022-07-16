@@ -1,12 +1,9 @@
-// all /me paths not working properly (not sure how to test them)
-
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { secretKey } = require('../utils/utils');
 const User = require('../models/user');
 const {
   NOT_FOUND_ERROR_CODE,
-  AUTHORIZATION_ERROR_CODE,
 } = require('../utils/errors');
 const ConflictError = require('../errors/ConflictError');
 const InternalServerError = require('../errors/InternalServerError');
@@ -15,7 +12,7 @@ const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 
 // this works
-const userLogin = (req, res) => {
+const userLogin = (req, res, next) => {
   const { email, password } = req.body;
 
   User.findUserByCredentials(email, password)
@@ -26,8 +23,8 @@ const userLogin = (req, res) => {
 
       res.send({ data: user.toJSON(), token });
     })
-    .catch((err) => {
-      res.status(AUTHORIZATION_ERROR_CODE).send({ message: err.message });
+    .catch(() => {
+      next(new BadRequestError('Incorrect email or password'));
     });
 };
 
