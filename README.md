@@ -8,11 +8,16 @@ Full "Around The U.S." project that handles cards and users with authorization a
 * Responsive website
 
 ### Screen Sizes
-1280  |  880  |  320
+* 1280
+* 880
+* 320
 
 ### Built with:
-
-HTML/CSS  |  JavaScript |  REACT  |  Express  | MongoDB
+* HTML/CSS
+* JavaScript
+* REACT
+* Express
+* MongoDB
 
 ## Links:
 
