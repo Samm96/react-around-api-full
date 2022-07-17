@@ -1,20 +1,21 @@
 const Card = require('../models/card');
-const {
-  BAD_REQUEST_ERROR_CODE, NOT_FOUND_ERROR_CODE, INT_SERVER_ERROR_CODE, CAST_ERROR_CODE,
-} = require('../utils/errors');
-const ForbiddenError = require('../errors/ForbiddenError')
+const ForbiddenError = require('../errors/ForbiddenError');
+const InternalServerError = require('../errors/InternalServerError');
+const BadRequestError = require('../errors/BadRequestError');
+const NotFoundError = require('../errors/NotFoundError');
+const CastError = require('../errors/CastError');
 
-const getCards = (req, res) => {
+const getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => {
       res.send(cards);
     })
     .catch(() => {
-      res.status(INT_SERVER_ERROR_CODE).send({ message: 'An error has occurred with the server' });
+      next(new InternalServerError('An error has occurred with the server'));
     });
 };
 
-const createCard = (req, res) => {
+const createCard = (req, res, next) => {
   console.log(req.user._id); // _id will become accessible (this is hardcoded)
   // Project: "We've hardcoded the user ID, so the card will have the same author in the database
   // regardless of who actually created it."
@@ -26,44 +27,39 @@ const createCard = (req, res) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(BAD_REQUEST_ERROR_CODE).send({ message: `${Object.values(err.errors).map((error) => error.message).join(', ')}` });
+        next(new BadRequestError(`${Object.values(err.errors).map((error) => error.message).join(', ')}`));
       } else {
-        res.status(INT_SERVER_ERROR_CODE).send({ message: 'An error has occurred with the server' });
+        next(new InternalServerError('An error has occurred with the server'));
       }
     });
 };
 
-/** Will this work? :
- *  .then((card) => {
-      if (!(card.owner.toString() === req.user._id)) {
-        next(new ForbiddenError('You can\'t delete another user\'s card'));
-      }
-      Card.deleteOne(card)
-    })
- */
-const deleteCard = (req, res) => {
+const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
+  const { currentUserId } = req.user._id;
 
   Card.findById(cardId)
-    .orFail(() => {
-      const error = new Error('Card ID not found');
-      error.statusCode = NOT_FOUND_ERROR_CODE;
-      throw error;
-    })
-    .then((card) => Card.deleteOne(card))
-    .then((card) => res.send({ data: card }))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        res.status(CAST_ERROR_CODE).send({ message: 'Card ID not valid' });
-      } else if (err.name === 'DocumentNotFoundError') {
-        res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Card ID not found' });
-      } else {
-        res.status(INT_SERVER_ERROR_CODE).send({ message: 'An error has occurred with the server' });
+    .orFail(new NotFoundError('Card ID not found'))
+    .then((card) => {
+      if (!(card.owner.toString() === currentUserId)) {
+        next(new ForbiddenError('Cannot delete another user\'s card'));
       }
+      Card.findByIdAndRemove(cardId)
+        .orFail(new NotFoundError('Card ID not found'))
+        .then(() => res.status(201).send(card))
+        .catch((err) => {
+          if (err.name === 'CastError') {
+            next(new CastError('Card ID not valid'));
+          } else if (err.name === 'DocumentNotFoundError') {
+            next(new NotFoundError('Card ID not found'));
+          } else {
+            next(new InternalServerError('An error has occurred with the server'));
+          }
+        });
     });
 };
 
-const likeCard = (req, res) => {
+const likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
@@ -74,16 +70,16 @@ const likeCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(CAST_ERROR_CODE).send({ message: 'Card ID not valid' });
+        next(new CastError('Card ID not valid'));
       } else if (err.name === 'DocumentNotFoundError') {
-        res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Card ID not found' });
+        next(new NotFoundError('Card ID not found'));
       } else {
-        res.status(INT_SERVER_ERROR_CODE).send({ message: 'An error has occurred with the server' });
+        next(new InternalServerError('An error has occurred with the server'));
       }
     });
 };
 
-const dislikeCard = (req, res) => {
+const dislikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
@@ -94,11 +90,11 @@ const dislikeCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(CAST_ERROR_CODE).send({ message: 'Card ID not valid' });
+        next(new CastError('Card ID not valid'));
       } else if (err.name === 'DocumentNotFoundError') {
-        res.status(NOT_FOUND_ERROR_CODE).send({ message: 'Card ID not found' });
+        next(new NotFoundError('Card ID not found'));
       } else {
-        res.status(INT_SERVER_ERROR_CODE).send({ message: 'An error has occurred with the server' });
+        next(new InternalServerError('An error has occurred with the server'));
       }
     });
 };

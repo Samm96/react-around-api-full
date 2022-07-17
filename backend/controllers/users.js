@@ -2,9 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { secretKey } = require('../utils/utils');
 const User = require('../models/user');
-const {
-  NOT_FOUND_ERROR_CODE,
-} = require('../utils/errors');
+
 const ConflictError = require('../errors/ConflictError');
 const InternalServerError = require('../errors/InternalServerError');
 const CastError = require('../errors/CastError');
@@ -31,9 +29,7 @@ const userLogin = (req, res, next) => {
 const getUsers = (req, res, next) => {
   User.find({})
     .orFail(() => {
-      const error = new Error('List of users not found');
-      error.statusCode = NOT_FOUND_ERROR_CODE;
-      throw error;
+      throw new NotFoundError('List of users not found');
     })
     .then((users) => res.send(users))
     .catch(() => {
@@ -155,9 +151,7 @@ const updateAvatar = (req, res, next) => {
     },
   )
     .orFail(() => {
-      const error = new Error('User ID not found');
-      error.statusCode = NOT_FOUND_ERROR_CODE;
-      throw error;
+      throw new NotFoundError('User ID not found');
     })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
