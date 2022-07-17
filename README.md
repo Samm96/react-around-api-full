@@ -25,6 +25,6 @@ Full "Around The U.S." project that handles cards and users with authorization a
 
 ## Links:
 
-Repository
+Repository: 
 
-Website
+Website: https://www.samantha-horsch-around-us.students.nomoredomainssbs.ru
