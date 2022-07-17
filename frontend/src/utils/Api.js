@@ -10,16 +10,19 @@ class Api {
   }
 
   getAppInfo(token) {
-    return Promise.all([this.getUserInfo(token), this.getInitialCardList(token)]);
+    return Promise.all([
+      this.getUserInfo(token),
+      this.getInitialCardList(token),
+    ]);
   }
 
   //used to request user info
   getUserInfo(token) {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
-      authorization: `Bearer ${token}`,
-      ...this._headers,
-      }
+        authorization: `Bearer ${token}`,
+        ...this._headers,
+      },
     }).then(this._handleServerResponse);
   }
 
@@ -58,7 +61,7 @@ class Api {
       headers: {
         authorization: `Bearer ${token}`,
         ...this._headers,
-      }
+      },
     }).then(this._handleServerResponse);
   }
 
@@ -84,7 +87,7 @@ class Api {
       headers: {
         authorization: `Bearer ${token}`,
         ...this._headers,
-      }
+      },
     }).then(this._handleServerResponse);
   }
 
@@ -100,10 +103,11 @@ class Api {
 }
 
 export const api = new Api({
-  baseUrl: "https://around.nomoreparties.co/v1/group-12",
+  baseUrl:
+    process.env.NODE_ENV === "production"
+      ? "https://api.samantha-horsch-around-us.students.nomoredomainssbs.ru"
+      : "http://localhost:3000",
   headers: {
-    authorization: "9b991f86-368d-4ef3-963c-b91580821c46",
     "Content-Type": "application/json",
-  }
+  },
 });
-
