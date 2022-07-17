@@ -58,7 +58,7 @@ function App() {
         })
         .catch((err) => console.log(err));
     }
-  }, []);
+  });
 
   React.useEffect(() => {
     const userToken = localStorage.getItem("jwt");
