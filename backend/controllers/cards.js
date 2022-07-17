@@ -4,6 +4,7 @@ const InternalServerError = require('../errors/InternalServerError');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const CastError = require('../errors/CastError');
+const { SUCCESS_MSG } = require('../utils/utils');
 
 const getCards = (req, res, next) => {
   Card.find({})
@@ -36,27 +37,20 @@ const createCard = (req, res, next) => {
 
 const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
-  const { currentUserId } = req.user._id;
+  const currentUserId = req.user._id;
 
   Card.findById(cardId)
     .orFail(new NotFoundError('Card ID not found'))
     .then((card) => {
-      if (!(card.owner.toString() === currentUserId)) {
+      if (card.owner.toString() !== currentUserId) {
         next(new ForbiddenError('Cannot delete another user\'s card'));
       }
       Card.findByIdAndRemove(cardId)
         .orFail(new NotFoundError('Card ID not found'))
-        .then(() => res.status(201).send(card))
-        .catch((err) => {
-          if (err.name === 'CastError') {
-            next(new CastError('Card ID not valid'));
-          } else if (err.name === 'DocumentNotFoundError') {
-            next(new NotFoundError('Card ID not found'));
-          } else {
-            next(new InternalServerError('An error has occurred with the server'));
-          }
-        });
-    });
+        .then(() => res.status(SUCCESS_MSG).send(card && { message: 'Card deleted successfully' }))
+        .catch(next);
+    })
+    .catch(next);
 };
 
 const likeCard = (req, res, next) => {
