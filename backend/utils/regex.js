@@ -1,6 +1,6 @@
 const linkRegex = /(^http|https)?:\/\/(^w{3}\.)?\S{1,}\.([a-z]{3})\/?(\S{1,})?/;
 
-const emailRegex = /^(?![.])(?!.*[.]{2})[^@]{1,}[^.]\@[a-zA-Z]{1,}\.[a-z]{3}/;
+const emailRegex = /^(?![.])(?!.*[.]{2})[^@]{1,}[^.]@[a-zA-Z]{1,}\.[a-z]{3}/;
 
 /** emailRegex explanation:
  *  first part: Absolutely no `.` at the beginning, cannot repeat `.` consecutively,
