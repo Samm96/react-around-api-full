@@ -1,7 +1,9 @@
 const express = require('express');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
+const { errors } = require('celebrate');
 const routes = require('./routes');
+const { errorLogger, requestLogger } = require('./middleware/logger');
 
 const { PORT = 3000 } = process.env;
 
@@ -14,7 +16,11 @@ mongoose.connect('mongodb://localhost:27017/aroundb');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(requestLogger);
+
 app.use(routes);
+app.use(errorLogger);
+app.use(errors());
 
 app.use((err, req, res, next) => {
   console.log(err);

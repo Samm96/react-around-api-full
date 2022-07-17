@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const { celebrate, Joi, errors } = require('celebrate');
+const { celebrate, Joi } = require('celebrate');
 const validateURL = require('../utils/urlValidate');
 const auth = require('../middleware/auth');
 const { linkRegex, emailRegex } = require('../utils/regex');
 const NotFoundError = require('../errors/NotFoundError');
-const { requestLogger, errorLogger } = require('../middleware/logger');
+const { requestLogger } = require('../middleware/logger');
 
 const cardsRouter = require('./cards');
 const usersRouter = require('./users');
@@ -14,7 +14,6 @@ const { userLogin, createUser } = require('../controllers/users');
 router.post('/signin', requestLogger, userLogin);
 router.post(
   '/signup',
-  requestLogger,
   celebrate({
     body: Joi.object().keys({
       name: Joi.string().min(2).max(30),
@@ -31,10 +30,7 @@ router.post(
 router.use(auth);
 
 router.use('/cards', cardsRouter);
-router.use('/users', requestLogger, usersRouter);
-
-router.use(errorLogger);
-router.use(errors());
+router.use('/users', usersRouter);
 
 router.use('*', (req, res, next) => {
   next(new NotFoundError('Requested resource not found'));
