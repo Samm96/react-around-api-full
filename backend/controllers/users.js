@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { secretKey } = require('../utils/utils');
+
+const { JWT_SECRET } = process.env;
+
 const User = require('../models/user');
 
 const ConflictError = require('../errors/ConflictError');
@@ -15,7 +17,7 @@ const userLogin = (req, res, next) => {
 
   User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, secretKey, {
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: '7d',
       });
 

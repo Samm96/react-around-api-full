@@ -5,3 +5,6 @@ README_p14.md
 build
 
 *.log
+.vscode
+
+.env
