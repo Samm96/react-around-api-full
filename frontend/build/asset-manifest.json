@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/static/css/main.04f1ef45.css",
+    "main.js": "/static/js/main.941c85fa.js",
+    "static/js/787.ec704a7a.chunk.js": "/static/js/787.ec704a7a.chunk.js",
+    "static/media/logo.svg": "/static/media/logo.296b481aa1b860ebf29177d487b83e96.svg",
+    "static/media/logo-mobile.svg": "/static/media/logo-mobile.d5d144f5dd40894b2397.svg",
+    "static/media/liked.svg": "/static/media/liked.bdb4fcab64dcefd54641.svg",
+    "index.html": "/index.html",
+    "static/media/Trash.svg": "/static/media/Trash.e78b50e03f694edfe698.svg",
+    "static/media/liked-active.svg": "/static/media/liked-active.efd0869c1313bd084f89.svg",
+    "static/media/Add-Button-mobile.svg": "/static/media/Add-Button-mobile.f590446d03d2b5805fad.svg",
+    "static/media/Close-Icon.svg": "/static/media/Close-Icon.2c95ef2d4194e2e009fb.svg",
+    "static/media/Edit-Button.svg": "/static/media/Edit-Button.7ef9d133c00f9ad0cca7.svg",
+    "static/media/Pencil.svg": "/static/media/Pencil.ea8cca3b96edda24ec96.svg",
+    "main.04f1ef45.css.map": "/static/css/main.04f1ef45.css.map",
+    "main.941c85fa.js.map": "/static/js/main.941c85fa.js.map",
+    "787.ec704a7a.chunk.js.map": "/static/js/787.ec704a7a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.04f1ef45.css",
+    "static/js/main.941c85fa.js"
+  ]
+}
