@@ -5,6 +5,7 @@ README_p14.md
 
 build
 deploy
+public
 
 *.log
 .vscode
