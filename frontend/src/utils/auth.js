@@ -5,6 +5,7 @@ export const register = (email, password) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": BASE_URL,
     },
     body: JSON.stringify({ email, password }),
   })
@@ -21,6 +22,7 @@ export const login = (email, password) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": BASE_URL,
     },
     body: JSON.stringify({ email, password }),
   })
@@ -33,6 +35,7 @@ export const checkToken = (token) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": BASE_URL,
       Authorization: `Bearer ${token}`,
     },
   })
