@@ -2,7 +2,7 @@ const BASE_URL = 'api.samantha-horsch-around-us.students.nomoredomainssbs.ru';
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
-    method: "POST",
+    method: 'POST',
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": BASE_URL,
@@ -18,7 +18,7 @@ export const register = (email, password) => {
 
 export const login = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
-    method: "POST",
+    method: 'POST',
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export const login = (email, password) => {
 
 export const checkToken = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
-    method: "GET",
+    method: 'GET',
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",

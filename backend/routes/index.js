@@ -12,7 +12,6 @@ const usersRouter = require('./users');
 
 const { userLogin, createUser } = require('../controllers/users');
 
-router.post('/signin', requestLogger, userLogin);
 router.post(
   '/signup',
   celebrate({
@@ -26,6 +25,7 @@ router.post(
   }),
   createUser,
 );
+router.post('/signin', requestLogger, userLogin);
 
 router.use(cors());
 router.options('*', cors());

@@ -29,7 +29,7 @@ class Api {
   //used to insert user info
   setUserInfo({ name, about }, token) {
     return fetch(`${this._baseUrl}/users/me`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
         authorization: `Bearer ${token}`,
         ...this._headers,
@@ -44,7 +44,7 @@ class Api {
   // used to insert profile pic
   updateProfilePicture({ avatar }, token) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
         authorization: `Bearer ${token}`,
         ...this._headers,
@@ -68,7 +68,7 @@ class Api {
   // used to add cards to page
   addCard({ name, link }, token) {
     return fetch(`${this._baseUrl}/cards`, {
-      method: "POST",
+      method: 'POST',
       headers: {
         authorization: `Bearer ${token}`,
         ...this._headers,
@@ -83,7 +83,7 @@ class Api {
   // removes cards
   removeCard({ _id }, token) {
     return fetch(`${this._baseUrl}/cards/${_id}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
         authorization: `Bearer ${token}`,
         ...this._headers,
@@ -93,7 +93,7 @@ class Api {
 
   toggleLikeCardStatus(cardId, like, token) {
     return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: like ? "PUT" : "DELETE",
+      method: like ? 'PUT' : 'DELETE',
       headers: {
         authorization: `Bearer ${token}`,
         ...this._headers,
