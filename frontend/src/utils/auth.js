@@ -8,12 +8,8 @@ export const register = (email, password) => {
     },
     body: JSON.stringify({ email, password }),
   })
-    .then((res) => {
-      if (res.status === 201) {
-        return res.json();
-      }
-    })
-};
+    .then((res) => res.json());
+  };
 
 export const login = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
