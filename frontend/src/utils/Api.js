@@ -105,8 +105,8 @@ class Api {
 export const api = new Api({
   baseUrl:
     process.env.NODE_ENV === "production"
-      ? "https://api.samantha-horsch-around-us.students.nomoredomainssbs.ru"
-      : "http://localhost:3000",
+      ? 'https://api.samantha-horsch-around-us.students.nomoredomainssbs.ru'
+      : 'http://localhost:3000',
   headers: {
     "Content-Type": "application/json",
   },

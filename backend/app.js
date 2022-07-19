@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
   res.header(
     'Access-Control-Allow-Origin',
-    'https://api.samantha-horsch-around-us.students.nomoredomainssbs.ru',
+    allowedCors,
   );
   res.header(
     'Access-Content-Control-Allow-Headers',
