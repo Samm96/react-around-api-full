@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const routes = require('./routes');
 const { errorLogger, requestLogger } = require('./middleware/logger');
-const { allowedCors } = require('./utils/utils');
 
 const { PORT = 3000 } = process.env;
 
@@ -26,7 +25,7 @@ app.use((req, res, next) => {
   );
   res.header(
     'Access-Control-Request-Methods',
-    'GET,HEAD,PUT,PATCH,POST, DELETE',
+    'GET,HEAD,PUT,PATCH,POST,DELETE',
   );
   res.header(
     'Access-Content-Control-Request-Headers',
