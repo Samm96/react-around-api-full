@@ -4,7 +4,6 @@ const express = require('express');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
-const cors = require('cors');
 const routes = require('./routes');
 const { errorLogger, requestLogger } = require('./middleware/logger');
 const { allowedCors, DEFAULT_ALLOWED_METHODS } = require('./utils/utils');
