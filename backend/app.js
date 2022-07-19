@@ -4,9 +4,13 @@ const express = require('express');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
+const { celebrate, Joi } = require('celebrate');
 const routes = require('./routes');
+const { linkRegex, emailRegex } = require('./utils/regex');
+const validateURL = require('./utils/urlValidate');
 const { errorLogger, requestLogger } = require('./middleware/logger');
 const { allowedCors, DEFAULT_ALLOWED_METHODS } = require('./utils/utils');
+const { userLogin, createUser } = require('./controllers/users');
 
 const { PORT = 3000 } = process.env;
 
@@ -43,6 +47,21 @@ app.get('/crash-test', () => {
     throw new Error('Server will crash now');
   }, 0);
 });
+
+app.post(
+  '/signup',
+  celebrate({
+    body: Joi.object().keys({
+      name: Joi.string().min(2).max(30),
+      about: Joi.string().min(2).max(30),
+      avatar: Joi.string().regex(linkRegex).custom(validateURL),
+      email: Joi.string().email(emailRegex).required(),
+      password: Joi.string().required(),
+    }),
+  }),
+  createUser,
+);
+app.post('/signin', requestLogger, userLogin);
 
 app.use(routes);
 app.use(errorLogger);
