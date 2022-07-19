@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const routes = require('./routes');
 const { errorLogger, requestLogger } = require('./middleware/logger');
-const { allowedCors, DEFAULT_ALLOWED_METHODS } = require('./utils/utils');
+const { allowedCors } = require('./utils/utils');
 
 const { PORT = 3000 } = process.env;
 
@@ -30,7 +30,7 @@ app.use((req, res, next) => {
   );
   res.header(
     'Access-Control-Allow-Methods',
-    DEFAULT_ALLOWED_METHODS,
+    'GET, HEAD, PUT, PATCH, POST, DELETE',
   );
   next();
 });
