@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
-const { cors } = require('cors');
+const cors = require('cors');
 const validateURL = require('../utils/urlValidate');
 const auth = require('../middleware/auth');
 const { linkRegex, emailRegex } = require('../utils/regex');
