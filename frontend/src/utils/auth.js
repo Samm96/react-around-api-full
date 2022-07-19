@@ -8,8 +8,12 @@ export const register = (email, password) => {
     },
     body: JSON.stringify({ email, password }),
   })
-    .then((res) => res.json());
-  };
+    .then((res) => {
+      if (res.status === 201) {
+        return res.json();
+      }
+    })
+};
 
 export const login = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
@@ -17,6 +21,7 @@ export const login = (email, password) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": BASE_URL,
     },
     body: JSON.stringify({ email, password }),
   })
@@ -29,6 +34,7 @@ export const checkToken = (token) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": BASE_URL,
       Authorization: `Bearer ${token}`,
     },
   })
