@@ -82,7 +82,7 @@ function App() {
     auth
       .register(email, password)
       .then((res) => {
-        if (res.data._id) {
+        if (res._id) {
           setInfoToolStatus("success");
           setInfoToolPopupOpen(true);
           userHistory.push("/signin");
