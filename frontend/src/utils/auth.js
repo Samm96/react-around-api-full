@@ -1,9 +1,11 @@
-const BASE_URL = "https://www.samantha-horsch-around-us.students.nomoredomainssbs.ru";
+const BASE_URL = 'https://www.samantha-horsch-around-us.students.nomoredomainssbs.ru';
+const authHeader = 'Access-Control-Allow-Origin';
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {
+      authHeader,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
@@ -19,6 +21,7 @@ export const login = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
+      authHeader,
       Accept: "application/json",
       "Content-Type": "application/json",
     },
@@ -31,6 +34,7 @@ export const checkToken = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
+      authHeader,
       Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
