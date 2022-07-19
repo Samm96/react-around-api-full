@@ -1,4 +1,4 @@
-const BASE_URL = "https://samantha-horsch-around-us.students.nomoredomainssbs.ru";
+const BASE_URL = "https://www.samantha-horsch-around-us.students.nomoredomainssbs.ru";
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
