@@ -1,8 +1,8 @@
-const BASE_URL = 'https://samantha-horsch-around-us.students.nomoredomainssbs.ru';
+const BASE_URL = 'https://api.samantha-horsch-around-us.students.nomoredomainssbs.ru';
 
 export const register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {
-    method: "POST",
+    method: 'POST',
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": BASE_URL,
