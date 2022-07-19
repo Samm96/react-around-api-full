@@ -108,7 +108,7 @@ export const api = new Api({
       ? 'api.samantha-horsch-around-us.students.nomoredomainssbs.ru'
       : 'http://localhost:3000',
   headers: {
-    "Access-Control-Allow-Origin": 'api.samantha-horsch-around-us.students.nomoredomainssbs.ru',
+    "Access-Control-Allow-Origin": 'samantha-horsch-around-us.students.nomoredomainssbs.ru',
     "Content-Type": "application/json",
   },
 });
