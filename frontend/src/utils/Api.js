@@ -105,10 +105,10 @@ class Api {
 export const api = new Api({
   baseUrl:
     process.env.NODE_ENV === "production"
-      ? 'https://api.samantha-horsch-around-us.students.nomoredomainssbs.ru'
+      ? 'api.samantha-horsch-around-us.students.nomoredomainssbs.ru'
       : 'http://localhost:3000',
   headers: {
-    "Access-Control-Allow-Origin": 'https://api.samantha-horsch-around-us.students.nomoredomainssbs.ru',
+    "Access-Control-Allow-Origin": 'api.samantha-horsch-around-us.students.nomoredomainssbs.ru',
     "Content-Type": "application/json",
   },
 });
