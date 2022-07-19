@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+const { cors } = require('cors');
 const validateURL = require('../utils/urlValidate');
 const auth = require('../middleware/auth');
 const { linkRegex, emailRegex } = require('../utils/regex');
@@ -25,6 +26,9 @@ router.post(
   }),
   createUser,
 );
+
+router.use(cors());
+router.options('*', cors());
 
 // All routes are protected with auth except signin and signup
 router.use(auth);

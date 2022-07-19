@@ -36,9 +36,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(cors());
-app.options('*', cors());
-
 app.use(requestLogger);
 
 // REMEMBER: REMOVE AFTER PASS REVIEW
