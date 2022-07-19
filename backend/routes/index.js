@@ -12,6 +12,8 @@ const usersRouter = require('./users');
 
 const { userLogin, createUser } = require('../controllers/users');
 
+router.use(cors());
+
 router.post('/signin', requestLogger, userLogin);
 router.post(
   '/signup',
