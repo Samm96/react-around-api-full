@@ -11,7 +11,7 @@ function Card({ card, onCardClick, onCardLike, onCardDeleteClick }) {
   }`;
 
   //maybe works? come back to this //not working. button not active
-  const isLiked = card.likes.some((user) => user === currentUser._id);
+  const isLiked = card.likes.some(user => user === currentUser._id);
 
   const cardLikeButtonClassName = `like-button ${
     isLiked ? "like-button_active" : ""

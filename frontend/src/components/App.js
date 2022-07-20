@@ -163,11 +163,12 @@ function App() {
   }
 
   function handleCardAdd(data) {
+    const token = localStorage.getItem('jwt');
     setIsLoading(true);
     api
-      .addCard(data)
+      .addCard(data, token)
       .then((newCard) => {
-        setCards([newCard, ...cards]);
+        setCards([newCard.data, ...cards]);
         closeAllPopups();
       })
       .catch((err) => console.log(err))
