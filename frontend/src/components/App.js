@@ -146,8 +146,6 @@ function App() {
   */
 
   function handleCardLike(card) {
-    //console.log(card);
-    //console.log(currentUser._id);
     const token = localStorage.getItem('jwt');
     const isLiked = card.likes.some((user) => user === currentUser._id);
     api
