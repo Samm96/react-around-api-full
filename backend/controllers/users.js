@@ -10,6 +10,7 @@ const InternalServerError = require('../errors/InternalServerError');
 const CastError = require('../errors/CastError');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
+const AuthorizationError = require('../errors/AuthorizationError');
 
 // this works
 const userLogin = (req, res, next) => {
@@ -24,7 +25,7 @@ const userLogin = (req, res, next) => {
       res.send({ data: user.toJSON(), token });
     })
     .catch(() => {
-      next(new BadRequestError('Incorrect email or password'));
+      next(new AuthorizationError('Incorrect email or password'));
     });
 };
 
@@ -100,7 +101,7 @@ const createUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(
-          new BadRequestError('Missing or invalid email or password'),
+          new AuthorizationError('Missing or invalid email or password'),
         );
       } else {
         next(err);

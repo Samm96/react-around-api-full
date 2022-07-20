@@ -52,8 +52,8 @@ function App() {
     if (userToken && isLoggedIn) {
       api
         .getAppInfo(userToken)
-        .then(([cardData, userData]) => {
-          setCurrentUser(userData);
+        .then(([userData, cardData]) => {
+          setCurrentUser(userData.data);
           setCards(cardData);
         })
         .catch((err) => console.log(err));
