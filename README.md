@@ -23,6 +23,6 @@ Full "Around The U.S." project that handles cards and users with authorization a
 
 **Repository**: https://github.com/Samm96/react-around-api-full.git
 
-**Website**: https://www.samantha-horsch-around-us.students.nomoredomainssbs.ru
+**Website**: https://samantha-horsch-around-us.students.nomoredomainssbs.ru
 
 **API**: https://api.samantha-horsch-around-us.students.nomoredomainssbs.ru
