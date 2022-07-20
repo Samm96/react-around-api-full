@@ -178,8 +178,9 @@ function App() {
   }
 
   function handleCardDelete(card) {
+    const token = localStorage.getItem('jwt');
     api
-      .removeCard(card)
+      .removeCard(card, token)
       .then(() => {
         setCards((cardData) => cardData.filter((c) => c._id !== card._id));
         closeAllPopups();
