@@ -216,11 +216,12 @@ function App() {
   }
 
   function handleUpdateAvatar(avatarUpdate) {
+    const token = localStorage.getItem('jwt');
     setIsLoading(true);
     api
-      .updateProfilePicture(avatarUpdate)
+      .updateProfilePicture(avatarUpdate, token)
       .then((newAvatar) => {
-        setCurrentUser(newAvatar);
+        setCurrentUser(newAvatar.data);
         closeAllPopups();
       })
       .catch((err) => console.log(err))
