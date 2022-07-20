@@ -30,7 +30,11 @@ function Login({ route, onLogin }) {
         placeholder="Email"
         minLength="2"
         maxLength="40"
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => {
+          setEmail(e.target.value);
+          console.log(e.target.value);
+          console.log("typing");
+        }}
         required
       />
       <input
