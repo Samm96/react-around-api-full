@@ -54,7 +54,7 @@ function App() {
         .getAppInfo(userToken)
         .then(([userData, cardData]) => {
           setCurrentUser(userData.data);
-          setCards(cardData);
+          setCards(cardData.reverse());
         })
         .catch((err) => console.log(err));
     }
