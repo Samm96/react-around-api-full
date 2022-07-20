@@ -4,14 +4,14 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 function Card({ card, onCardClick, onCardLike, onCardDeleteClick }) {
   const currentUser = React.useContext(CurrentUserContext);
 
-  const isOwn = card.owner._id === currentUser._id;
+  const isOwn = card.owner === currentUser._id;
 
   const cardDeleteButtonClassName = `delete-button ${
     isOwn ? "" : "delete-button_hidden"
   }`;
 
   //maybe works? come back to this //not working. button not active
-  const isLiked = card.likes.some((user) => user._id === currentUser._id);
+  const isLiked = card.likes.some((user) => user === currentUser._id);
 
   const cardLikeButtonClassName = `like-button ${
     isLiked ? "like-button_active" : ""

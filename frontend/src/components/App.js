@@ -146,13 +146,16 @@ function App() {
   */
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+    //console.log(card);
+    //console.log(currentUser._id);
+    const token = localStorage.getItem('jwt');
+    const isLiked = card.likes.some((user) => user === currentUser._id);
     api
-      .toggleLikeCardStatus(card._id, !isLiked)
+      .toggleLikeCardStatus(card._id, !isLiked, token)
       .then((newCard) => {
         setCards((state) =>
           state.map((currentCard) =>
-            currentCard._id === card._id ? newCard : currentCard
+            currentCard._id === card._id ? newCard.data : currentCard
           )
         );
       })
