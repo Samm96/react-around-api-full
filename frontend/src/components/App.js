@@ -102,11 +102,11 @@ function App() {
       .login(email, password)
       .then((res) => {
         if (res.token) {
-          setIsLoggedIn(true);
-          setUserEmail(email);
           localStorage.setItem("jwt", res.token);
           localStorage.setItem("email", email);
           userHistory.push("/");
+          setIsLoggedIn(true);
+          setUserEmail(email);
         } else {
           setInfoToolStatus("fail");
           setInfoToolPopupOpen(true);
