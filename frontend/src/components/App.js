@@ -201,11 +201,12 @@ function App() {
   }
 
   function handleUpdateUser(userUpdate) {
+    const token = localStorage.getItem('jwt');
     setIsLoading(true);
     api
-      .setUserInfo(userUpdate)
+      .setUserInfo(userUpdate, token)
       .then((newUserData) => {
-        setCurrentUser(newUserData);
+        setCurrentUser(newUserData.data);
         closeAllPopups();
       })
       .catch((err) => console.log(err))
