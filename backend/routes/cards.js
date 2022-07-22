@@ -9,14 +9,31 @@ const {
 } = require('../controllers/cards');
 
 router.get('/', getCards);
+
 router.post('/', requestLogger, celebrate({
   body: Joi.object().keys({
+    ObjectId: Joi.string().hex().length(24),
     name: Joi.string().min(2).max(30),
     link: Joi.string().regex(linkRegex).custom(validateURL),
   }),
 }), createCard);
-router.delete('/:cardId', deleteCard);
-router.put('/:cardId/likes', likeCard);
-router.delete('/:cardId/likes', dislikeCard);
+
+router.delete('/:cardId', celebrate({
+  body: Joi.object().keys({
+    ObjectId: Joi.string().hex().length(24),
+  }),
+}), deleteCard);
+
+router.put('/:cardId/likes', celebrate({
+  body: Joi.object().keys({
+    ObjectId: Joi.string().hex().length(24),
+  }),
+}), likeCard);
+
+router.delete('/:cardId/likes', celebrate({
+  body: Joi.object().keys({
+    ObjectId: Joi.string().hex().length(24),
+  }),
+}), dislikeCard);
 
 module.exports = router;
