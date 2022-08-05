@@ -22,7 +22,6 @@ Full "Around The U.S." project that handles cards and users with authorization a
 
 ## Screen Cast
 
-_Because of the file size, it is a link_
 https://www.loom.com/share/ac53a4229a9a4cda8ad8f7cd5ca317d4
 
 
